@@ -58,16 +58,26 @@ var updateFamilies = function(db, callback) {
 // );
 // };
 
-MongoClient.connect(url, function(err, client) {
-    assert.equal(null, err);
-    var db = client.db("familiesdb");
-    insertDocument(db, function() {
-        findFamilies(db, function() {
-            updateFamilies(db, function() {
-                //removeFamilies(db, function() {
-                client.close();
-                //});
+MongoClient.connect(
+    "mongodb://mongoaccount.documents.azure.com:10255/?ssl=true",
+    {
+        auth: {
+            user: "mongoaccount",
+            password:
+                "ofzAibYom6vYXc5ZUAt6Cud4jFrWKOI9YfSuwm3cqxRZKzOfrdvEr2kpwPjbhYLA11A9JvyuJ502O93OpSYstA=="
+        }
+    },
+    function(err, client) {
+        assert.equal(null, err);
+        var db = client.db("familiesdb");
+        insertDocument(db, function() {
+            findFamilies(db, function() {
+                updateFamilies(db, function() {
+                    //removeFamilies(db, function() {
+                    client.close();
+                    //});
+                });
             });
         });
-    });
-});
+    }
+);
